@@ -9,6 +9,12 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+const Display = props => ( <h2><b>{props.text}</b></h2>)
+
+const Anecdotes = props => ( <p>{props.anecdotes}</p>)
+
+const Feedback = props => (<p>has {props.feedback} votes.</p>)
+
 // Button 
 const Button = (props) => {
   return (
@@ -28,19 +34,25 @@ const  App = () =>  {
   const [selected, setSelected] = useState(0)
   const [voted, setVoted] = useState(copyArray)
 
-  // 
+  // mutate the array into copy variable and increment the selected element 
   let copy = [...voted]
   copy[selected] += 1 
 
-  
+  // find the index with the highest value
+  let indexOfMax=(copy.reduce((iMax,x,i,arr) => x > arr[iMax]? i : iMax, 0 ))
 
   return (
 
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {copy[selected]} votes</p>
+      <Display text={'Anecdote of the day.'} />
+      <Anecdotes anecdotes = {anecdotes[selected]} />
+      <Feedback feedback = {copy[selected]}/>
       <Button handleClik = { () => setVoted(copy)} text='vote'/> &nbsp;
       <Button handleClik = { () => setSelected(randomNumber)} text = 'next anecdote' />
+      <br/>
+      <Display text={'Anecdote with most votes'}/>
+      <Anecdotes anecdotes = {anecdotes[indexOfMax]} />
+      <Feedback feedback = {copy[indexOfMax]} />         
      
     </div> 
   );
