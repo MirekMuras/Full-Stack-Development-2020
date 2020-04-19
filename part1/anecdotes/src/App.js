@@ -9,25 +9,22 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+// Display text component
 const Display = props => ( <h2><b>{props.text}</b></h2>)
 
 const Anecdotes = props => ( <p>{props.anecdotes}</p>)
-
+// Feedback component
 const Feedback = props => (<p>has {props.feedback} votes.</p>)
 
-// Button 
+// Button component
 const Button = (props) => {
   return (
     <button onClick={props.handleClik}>{props.text}</button>
   )
 }
 
-// random number method assigned to variable
-const randomNumber = () => Math.floor(Math.random() * anecdotes.length)
-
 // create a zero=filled array of the anecdotes arrray length
-const copyArray = new Array(anecdotes.length).fill(-1)
-
+const copyArray = new Array(anecdotes.length).fill(0)
 
 
 const  App = () =>  {
@@ -35,24 +32,34 @@ const  App = () =>  {
   const [voted, setVoted] = useState(copyArray)
 
   // mutate the array into copy variable and increment the selected element 
-  let copy = [...voted]
-  copy[selected] += 1 
+  const VotedHandler = () => {
+  const copy = [...voted]
+  copy[selected] += 1
+  setVoted(copy)
+  }
+
+  const randomAnecdoteHandler = () => {
+    const randomNumber = () => Math.floor(Math.random() * anecdotes.length)
+    setSelected(randomNumber)
+  }
 
   // find the index with the highest value
-  let indexOfMax=(copy.reduce((iMax,x,i,arr) => x > arr[iMax]? i : iMax, 0 ))
+  const indexOfMax=(voted.reduce((iMax,x,i,arr) => x > arr[iMax]? i : iMax, 0 ))
+  // find largest element of the array
+  const highestVotes = Math.max(...voted)
 
   return (
 
     <div>
       <Display text={'Anecdote of the day.'} />
       <Anecdotes anecdotes = {anecdotes[selected]} />
-      <Feedback feedback = {copy[selected]}/>
-      <Button handleClik = { () => setVoted(copy)} text='vote'/> &nbsp;
-      <Button handleClik = { () => setSelected(randomNumber)} text = 'next anecdote' />
+      <Feedback feedback = {voted[selected]}/>
+      <Button handleClik = { VotedHandler} text='vote'/> &nbsp;
+      <Button handleClik = { randomAnecdoteHandler } text = 'next anecdote' />
       <br/>
       <Display text={'Anecdote with most votes'}/>
       <Anecdotes anecdotes = {anecdotes[indexOfMax]} />
-      <Feedback feedback = {copy[indexOfMax]} />         
+      <Feedback feedback = {highestVotes} />         
      
     </div> 
   );
