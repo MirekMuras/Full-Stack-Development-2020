@@ -1,0 +1,20 @@
+## VS Code snippets
+- create snippets : https://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets
+
+		{
+		  "console.log": {
+			"prefix": "clog",
+			"body": [
+			  "console.log('$1')",
+			],
+			"description": "Log output to console"
+		  }
+		}
+
+## .find()
+
+## .filter
+
+33 .map()
+
+## Rendering 
