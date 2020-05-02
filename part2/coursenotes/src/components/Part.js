@@ -1,22 +1,16 @@
 import React from 'react'
 
-const Part = (props) =>{
+const Part = (props) =>{    
 
- 
-    
-    return (  
-
+    return (
         props.parts.map( part => 
-        < li key={part.id}>
-        {part.name} &nbsp;
-        {part.exercises}
-        </li>)
+        < p key={part.id}>
+                {part.name} &nbsp;
+                {part.exercises}
+        </p>
+        )   
 
-      
-        
-        
     )
-} 
-
+}
 
 export default Part

@@ -1,19 +1,32 @@
 import React from 'react'
 import Part from './Part'
+import Header from './Header'
 
-const Content = ({course}) => {
+function sum(value) {
 
     let initialVAlue = 0
-    let sum = course.parts.reduce((s,p) =>
-     s + p.exercises  , initialVAlue)
-    console.log(sum);
+    let _sum = value.parts.reduce((s,p) =>
+    s + p.exercises  , initialVAlue)
+    
+    return  (
+       <b>Total of {_sum} exercises</b>
+    )
+}
 
+const Content = ({courses}) => {
+
+    const [one,two] = courses
 
     return (
-    <p>
-        <Part parts={course.parts} /> <br/>
-        <b>Total of {sum} exercises </b>
-    </p> 
+    <div>
+        <Header header = {one.name}/>
+        <Part parts={one.parts} />
+        {sum(one)}
+        <Header header = {two.name}/>
+        <Part parts={two.parts} /> 
+        {sum(two)}
+      
+    </div> 
     )
 }
 

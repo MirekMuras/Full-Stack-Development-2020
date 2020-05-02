@@ -1,15 +1,13 @@
 import React from 'react';
-import Content from './components/Content'
-import Header from './components/Header'
+import Course from './components/Course';
 
 
-const App = ({course}) => {  
+
+const App = ({courses}) => {  
   
 return (
     <div>
-      <Header text={course.name}/>
-      <Content course={course}/>
-      
+      < Course courses={courses} />      
     </div>
   )
 }
