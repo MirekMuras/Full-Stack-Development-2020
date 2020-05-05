@@ -3,7 +3,7 @@ import React from 'react'
 // displaying a single note component Note
 const Note = (props) => {
     return (
-    <li>{props.name}</li>
+    <li> {props.name}</li>
     )
   }
 
