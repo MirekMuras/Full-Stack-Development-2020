@@ -7,19 +7,28 @@ const Phonebook = () => {
   
   const addName = (event) => {
       event.preventDefault()
-      
-      const nameObject = { 
+
+      const check_if_name_exist = obj => obj.name === newName 
+        
+
+      if(!persons.some(check_if_name_exist)) {      
+        const nameObject = { 
           name: newName ,
           id: persons.length +1,
-        }
+        } 
 
-      setPersons(persons.concat(nameObject))
-      setNewName('')
+        setPersons(persons.concat(nameObject))
+        setNewName('') 
+      }   
+      else {
+        alert(`${newName} already exist`)
+        setNewName('')       
+      }    
   }
 
   const handleChange = (event) => {
       setNewName(event.target.value)
-  }
+  }  
 
   return (
     <div>
@@ -37,8 +46,7 @@ const Phonebook = () => {
         </div>
       </form>
 
-      <h2>Numbers</h2>
-      
+      <h2>Numbers</h2>      
       <ul>
         {persons.map(person => 
             <Note key={person.id} name={person.name} />
