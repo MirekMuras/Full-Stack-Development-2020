@@ -1,10 +1,10 @@
 import React from 'react'
 
 // displaying a single note component Note
-const Note = (props) => {
+const Note = ({name , number}) => {
   
-    return (
-    <p>{props.name} - {props.number}</p>
+  return (
+    <p>{name} - {number}</p>
     )
   }
 

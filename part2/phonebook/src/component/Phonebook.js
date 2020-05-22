@@ -3,11 +3,8 @@ import Note from './Note'
 
 const Phonebook = () => {
   const [ persons, setPersons ] = useState([
-    {
-      id: 1,
-      name: 'Arto Hellas',
-      number: '12345678979',
-    }
+    {name: 'Mirek Muras',
+     number : '123 456 7898'}
   ])
 
   const [ newName, setNewName ] = useState('')
@@ -16,27 +13,17 @@ const Phonebook = () => {
   const submitHandler = (event) => {     
     event.preventDefault()
 
+    const personObject = { 
+      name: newName ,
+      number: newPhoneNumber,
+      id: persons.length +1,
+    } 
+   
 
-    const check_if_name_exist = obj => obj.name === newName 
-
-      if(!persons.some(check_if_name_exist)) {      
-        
-        const personObject = { 
-          name: newName ,
-          phone: newPhoneNumber,
-          id: persons.length +1,
-        } 
-
-        setPersons(persons.concat(personObject))
-        setNewName('')
-        setNewPhoneNumber('')
-        
-      }   
-      else {
-        alert(`${newName} already exist`)
-        setNewName('') 
-        setNewPhoneNumber('')     
-      }    
+    setPersons(persons.concat(personObject))
+    setNewName('')
+    setNewPhoneNumber('')
+   
   }
 
   const handleChange = (event) => {
@@ -47,29 +34,34 @@ const Phonebook = () => {
     setNewPhoneNumber(event.target.value)
   }
 
-
+  const noteToShow = (persons.some(person => person.name === newName) ? alert(`The name ${newName} is already added to phonebook.`) : persons)
+       
   return (
     <div>
       <h2>Phonebook</h2>   
       
       <form onSubmit={submitHandler}>
-        <div>
-          Name: <input type='text' name='name' value={newName}  onChange={handleChange} />
+          <label>
+              Name  &nbsp;
+              <input value={newName}  onChange={handleChange} />
+          </label>          
           <br/>
-          Phone number:<input type='number' name='number' value={newPhoneNumber} onChange={handleNumberChange} />
-        </div>
+          <label>
+              Phone number &nbsp;
+              <input value={newPhoneNumber} onChange={handleNumberChange} />
+          </label>
         
         <div>
           <button type="submit">add</button>
         </div>
       </form>
 
-      <h2>Numbers</h2>
-            
+      <h2>Numbers</h2>            
       <div>        
-        {persons.map(person =>            
-          <Note key={person.id} name={person.name} number={person.number}/>
+        {noteToShow.map(({name,number}) =>            
+          <Note key={name} name={name} number={number}/>
          )}
+         
       </div>
       
     </div>
