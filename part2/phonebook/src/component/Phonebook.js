@@ -1,15 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
+import axios from 'axios'
 import Note from './Note'
+import Header from './Header'
 
 const Phonebook = () => {
   const [ persons, setPersons ] = useState([
-    {name: 'Mirek Muras',
-     number : '123 456 7898'}
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
 
   const [ newName, setNewName ] = useState('')
   const [ newPhoneNumber, setNewPhoneNumber] = useState('')
- 
+  const [searchTerm, setSearchTerm] = React.useState(""); 
+  
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:8000/notes')
+      .then(response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      })
+  }, [])
+  console.log('render', persons.length, 'notes')
+  
+  
   const submitHandler = (event) => {     
     event.preventDefault()
 
@@ -34,11 +51,32 @@ const Phonebook = () => {
     setNewPhoneNumber(event.target.value)
   }
 
+  const handleSearchTearm = event => {
+    setSearchTerm(event.target.value);
+  }
+
   const noteToShow = (persons.some(person => person.name === newName) ? alert(`The name ${newName} is already added to phonebook.`) : persons)
-       
+  
+  const results = !searchTerm ? persons : persons.filter(persons =>
+      persons.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+    );
+
+  /* Link: https://dev.to/asimdahall/simple-search-form-in-react-using-hooks-42pg */     
   return (
     <div>
-      <h2>Phonebook</h2>   
+      <Header title={'Phonebook'}/>       
+      
+      <label>
+        Filter name &nbsp;
+          <input 
+            type="text" 
+            placeholder="Search" 
+            value={searchTerm} 
+            onChange={handleSearchTearm} 
+          /> 
+      </label>
+
+      <Header title={'add a new'}/>
       
       <form onSubmit={submitHandler}>
           <label>
@@ -56,7 +94,7 @@ const Phonebook = () => {
         </div>
       </form>
 
-      <h2>Numbers</h2>            
+      <Header title={'Numbers'}/>           
       <div>        
         {noteToShow.map(({name,number}) =>            
           <Note key={name} name={name} number={number}/>
