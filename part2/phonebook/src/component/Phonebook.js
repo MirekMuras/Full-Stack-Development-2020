@@ -14,17 +14,17 @@ const Phonebook = () => {
   const [ newName, setNewName ] = useState('')
   const [ newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchTerm, setSearchTerm] = React.useState(""); 
-  
-  useEffect(() => {
+
+  const hook = () => {
     console.log('effect')
     axios
-      .get('http://localhost:8000/notes')
+      .get('http://localhost:3001/persons')
       .then(response => {
         console.log('promise fulfilled')
-        setNotes(response.data)
+        setPersons(response.data)
       })
-  }, [])
-  console.log('render', persons.length, 'notes')
+  }  
+  useEffect(hook, [])
   
   
   const submitHandler = (event) => {     
@@ -57,9 +57,7 @@ const Phonebook = () => {
 
   const noteToShow = (persons.some(person => person.name === newName) ? alert(`The name ${newName} is already added to phonebook.`) : persons)
   
-  const results = !searchTerm ? persons : persons.filter(persons =>
-      persons.toLowerCase().includes(searchTerm.toLocaleLowerCase())
-    );
+ // const results = !searchTerm ? persons : persons.filter(persons =>       persons.toLowerCase().includes(searchTerm.toLocaleLowerCase())     );
 
   /* Link: https://dev.to/asimdahall/simple-search-form-in-react-using-hooks-42pg */     
   return (
